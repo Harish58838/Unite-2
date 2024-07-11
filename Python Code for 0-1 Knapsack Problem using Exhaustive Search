@@ -1,0 +1,38 @@
+def total_value(items, values):
+    return sum(values[i] for i in items)
+
+def is_feasible(items, weights, capacity):
+    return sum(weights[i] for i in items) <= capacity
+
+def knapsack_01_exhaustive_search(weights, values, capacity):
+    n = len(weights)
+    max_value = 0
+    optimal_selection = []
+
+    for i in range(2**n):
+        selection = [j for j in range(n) if (i & (1 << j))]
+        if is_feasible(selection, weights, capacity):
+            total = total_value(selection, values)
+            if total > max_value:
+                max_value = total
+                optimal_selection = selection
+
+    return optimal_selection, max_value
+
+# Test Case 1
+weights_1 = [2, 3, 1]
+values_1 = [4, 5, 3]
+capacity_1 = 4
+optimal_selection_1, total_value_1 = knapsack_01_exhaustive_search(weights_1, values_1, capacity_1)
+print("Test Case 1:")
+print("Optimal Selection:", optimal_selection_1)
+print("Total Value:", total_value_1)
+
+# Test Case 2
+weights_2 = [1, 2, 3, 4]
+values_2 = [2, 4, 6, 3]
+capacity_2 = 6
+optimal_selection_2, total_value_2 = knapsack_01_exhaustive_search(weights_2, values_2, capacity_2)
+print("\nTest Case 2:")
+print("Optimal Selection:", optimal_selection_2)
+print("Total Value:", total_value_2)
